@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T-Shirt Order Form</title>
+    <style>
+        /* Overall body style */
+        body {
+            background-color: #f0f8ff;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        form {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            padding: 20px;
+            margin: 20px auto;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Style for fieldset */
+        fieldset {
+            border: 2px solid #2c3e50;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+
+        legend {
+            color: #2980b9;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #34495e;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* Button styles */
+        input[type="submit"], input[type="reset"] {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover, input[type="reset"]:hover {
+            background-color: #1f6391;
+        }
+
+       
+        input[type="text"]:hover, input[type="email"]:hover, input[type="tel"]:hover, textarea:hover, select:hover, input[type="number"]:hover, input[type="date"]:hover {
+            border-color: #2980b9;
+        }
+    </style>
+    <script>
+        function setMinDeliveryDate() {
+            let today = new Date();
+            let year = today.getFullYear();
+            let month = String(today.getMonth() + 1).padStart(2, '0'); 
+            let day = String(today.getDate()).padStart(2, '0'); 
+            let minDate = `${year}-${month}-${day}`;
+            document.getElementById("delivery-date").setAttribute("min", minDate);
+        }
+
+        // Function to validate form inputs
+        function validateForm() {
+            let tagline = document.getElementById("tagline").value;
+            let phone = document.getElementById("phone").value;
+            let comments = document.getElementById("comments").value;
+
+            if (tagline.length > 50) {
+                alert("Tagline should not exceed 50 characters.");
+                return false;
+            }
+            if (!/^\d{10}$/.test(phone)) {
+                alert("Phone number should be exactly 10 digits.");
+                return false;
+            }
+            if (comments.length > 100) {
+                alert("Comments should not exceed 100 characters.");
+                return false;
+            }
+            processOrder();
+            return false; 
+        }
+
+        function processOrder() {
+            let recipientName = document.getElementById("recipient-name").value;
+            let quantity = document.getElementById("quantity").value;
+            let color = document.getElementById("color").value;
+            let size = document.getElementById("size").value;
+            let deliveryDate = document.getElementById("delivery-date").value;
+
+            let currentDate = new Date();
+            let receiptDate = currentDate.toLocaleDateString();
+
+            // Create receipt content
+            let receiptContent = `
+                <h2>Order Receipt</h2>
+                <p>Thank you, ${recipientName}, for your order!</p>
+                <p><strong>Order Details:</strong></p>
+                <ul>
+                    <li>Quantity: ${quantity}</li>
+                    <li>Color: ${color}</li>
+                    <li>Size: ${size}</li>
+                    <li>Delivery Date: ${deliveryDate}</li>
+                </ul>
+                <p><strong>Receipt Date:</strong> ${receiptDate}</p>
+                <p>Your order has been received and is being processed.</p>
+            `;
+
+            // Open a new window to display the receipt
+            let newWindow = window.open("", "Receipt", "width=600,height=400");
+            newWindow.document.write(`
+                <html>
+                <head>
+                    <title>Order Receipt</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        h2 { color: #2c3e50; }
+                    </style>
+                </head>
+                <body>
+                    ${receiptContent}
+                </body>
+                </html>
+            `);
+        }
+        window.onload = function() {
+            setMinDeliveryDate();
+        }
+    </script>
+</head>
+<body>
+    <center>
+        <h1><u>Custom T-Shirt Order Form</u></h1>
+        <form onsubmit="return validateForm()" method="post">
+            <fieldset>
+                <legend><b>Tagline on the Shirt</b></legend>
+                <label for="tagline">Tagline:</label>
+                <input type="text" id="tagline" name="tagline" placeholder="Enter your tagline" required>
+            </fieldset>
+            <br>
+         
+            <fieldset>
+                <legend><b>Select T-Shirt Details</b></legend>
+                <label for="color">Color:</label>
+                <select id="color" name="color" required>
+                    <option value="" disabled selected>Select a color</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="black">Black</option>
+                    <option value="white">White</option>
+                </select>
+                <br><br>
+                
+                <label for="size">Size:</label>
+                <select id="size" name="size" required>
+                    <option value="" disabled selected>Select a size</option>
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                    <option value="xlarge">X-Large</option>
+                </select>
+            </fieldset>
+            <br>
+            <fieldset>
+                <legend><b>Order Details</b></legend>
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+                <br><br>
+                
+                <label for="delivery-date">Delivery Date:</label>
+                <input type="date" id="delivery-date" name="delivery-date" required>
+            </fieldset>
+            <br>
+            <fieldset>
+                <legend><b>Delivery Details</b></legend>
+                <label for="recipient-name">Recipient's Name:</label>
+                <input type="text" id="recipient-name" name="recipient-name" placeholder="Enter recipient's name" required>
+                <br><br>
+                
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" placeholder="Enter delivery address" required>
+                <br><br>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <br><br>
+                
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required pattern="[0-9]{10}">
+            </fieldset>
+            <br>
+            <fieldset>
+                <legend><b>Additional Comments</b></legend>
+                <label for="comments">Comments:</label>
+                <textarea id="comments" name="comments" rows="4" placeholder="Enter any additional comments (max 100 characters)"></textarea>
+            </fieldset>
+            <br>
+            <input type="submit" value="Submit Order">
+            <input type="reset" value="Reset Form">
+        </form>
+    </center>
+</body>
+</html>
