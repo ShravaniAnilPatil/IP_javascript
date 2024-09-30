@@ -29,8 +29,7 @@ try {
     let student1 = new Student('Shravani Patil', 22, 'Web Developer', 101, 'A');
     console.log(student1.getDetails());
 
-    // Uncomment the following lines to see the exception handling
-    // let student2 = new Student('John Doe', 20, 'Software Engineer', 0, 'B');
+    // let student2 = new Student('Manya T', 20, 'Software Engineer', 0, 'B');
     // console.log(student2.getDetails());
 } catch (error) {
     console.error(error.message);

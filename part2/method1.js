@@ -5,7 +5,7 @@ class Person {
         this.age = age;
         this.occupation = occupation;
     }
-    getDetails = () => {
+    getDetails = () => { //member function
         return `${this.name}, aged ${this.age}, is a ${this.occupation}.`;
     }
 }

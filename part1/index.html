@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>T-Shirt Order Form</title>
     <style>
-        /* Overall body style */
         body {
             background-color: #f0f8ff;
             font-family: 'Arial', sans-serif;
@@ -16,19 +15,17 @@
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 80%;
+            width: 70%;
             max-width: 800px;
             padding: 20px;
-            margin: 20px auto;
+            margin: 20px;
         }
 
         h1 {
             color: #2c3e50;
             font-size: 2.5rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
-        /* Style for fieldset */
         fieldset {
             border: 2px solid #2c3e50;
             padding: 15px;
@@ -46,6 +43,8 @@
             font-size: 1rem;
             color: #34495e;
             font-weight: bold;
+            position: relative;
+            display: flex;
         }
 
         input, select, textarea {
@@ -57,7 +56,6 @@
             box-sizing: border-box;
         }
 
-        /* Button styles */
         input[type="submit"], input[type="reset"] {
             background-color: #2980b9;
             color: white;
@@ -74,7 +72,6 @@
             background-color: #1f6391;
         }
 
-       
         input[type="text"]:hover, input[type="email"]:hover, input[type="tel"]:hover, textarea:hover, select:hover, input[type="number"]:hover, input[type="date"]:hover {
             border-color: #2980b9;
         }
@@ -83,17 +80,17 @@
         function setMinDeliveryDate() {
             let today = new Date();
             let year = today.getFullYear();
-            let month = String(today.getMonth() + 1).padStart(2, '0'); 
-            let day = String(today.getDate()).padStart(2, '0'); 
+            let month = String(today.getMonth() + 1).padStart(2, '0');
+            let day = String(today.getDate()).padStart(2, '0');
             let minDate = `${year}-${month}-${day}`;
             document.getElementById("delivery-date").setAttribute("min", minDate);
         }
 
-        // Function to validate form inputs
         function validateForm() {
             let tagline = document.getElementById("tagline").value;
             let phone = document.getElementById("phone").value;
             let comments = document.getElementById("comments").value;
+            let email = document.getElementById("email").value;
 
             if (tagline.length > 50) {
                 alert("Tagline should not exceed 50 characters.");
@@ -107,8 +104,13 @@
                 alert("Comments should not exceed 100 characters.");
                 return false;
             }
+            if (/[A-Z]/.test(email)) {
+                alert("Email should only contain lowercase letters.");
+                return false;
+            }
+
             processOrder();
-            return false; 
+            return false;
         }
 
         function processOrder() {
@@ -121,7 +123,6 @@
             let currentDate = new Date();
             let receiptDate = currentDate.toLocaleDateString();
 
-            // Create receipt content
             let receiptContent = `
                 <h2>Order Receipt</h2>
                 <p>Thank you, ${recipientName}, for your order!</p>
@@ -136,7 +137,6 @@
                 <p>Your order has been received and is being processed.</p>
             `;
 
-            // Open a new window to display the receipt
             let newWindow = window.open("", "Receipt", "width=600,height=400");
             newWindow.document.write(`
                 <html>
@@ -163,14 +163,12 @@
         <h1><u>Custom T-Shirt Order Form</u></h1>
         <form onsubmit="return validateForm()" method="post">
             <fieldset>
-                <legend><b>Tagline on the Shirt</b></legend>
+                <legend><b>T-Shirt Order Details</b></legend>
+                
                 <label for="tagline">Tagline:</label>
                 <input type="text" id="tagline" name="tagline" placeholder="Enter your tagline" required>
-            </fieldset>
-            <br>
-         
-            <fieldset>
-                <legend><b>Select T-Shirt Details</b></legend>
+                <br>
+
                 <label for="color">Color:</label>
                 <select id="color" name="color" required>
                     <option value="" disabled selected>Select a color</option>
@@ -180,8 +178,8 @@
                     <option value="black">Black</option>
                     <option value="white">White</option>
                 </select>
-                <br><br>
-                
+                <br>
+
                 <label for="size">Size:</label>
                 <select id="size" name="size" required>
                     <option value="" disabled selected>Select a size</option>
@@ -190,38 +188,32 @@
                     <option value="large">Large</option>
                     <option value="xlarge">X-Large</option>
                 </select>
-            </fieldset>
-            <br>
-            <fieldset>
-                <legend><b>Order Details</b></legend>
+                <br>
+
                 <label for="quantity">Quantity:</label>
                 <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-                <br><br>
-                
+                <br>
+
                 <label for="delivery-date">Delivery Date:</label>
                 <input type="date" id="delivery-date" name="delivery-date" required>
-            </fieldset>
-            <br>
-            <fieldset>
-                <legend><b>Delivery Details</b></legend>
+                <br>
+
                 <label for="recipient-name">Recipient's Name:</label>
                 <input type="text" id="recipient-name" name="recipient-name" placeholder="Enter recipient's name" required>
-                <br><br>
-                
+                <br>
+
                 <label for="address">Address:</label>
                 <input type="text" id="address" name="address" placeholder="Enter delivery address" required>
-                <br><br>
-                
+                <br>
+
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                <br><br>
-                
+                <br>
+
                 <label for="phone">Phone Number:</label>
-                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required pattern="[0-9]{10}">
-            </fieldset>
-            <br>
-            <fieldset>
-                <legend><b>Additional Comments</b></legend>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required pattern="[789][0-9]{9}">
+                <br>
+
                 <label for="comments">Comments:</label>
                 <textarea id="comments" name="comments" rows="4" placeholder="Enter any additional comments (max 100 characters)"></textarea>
             </fieldset>

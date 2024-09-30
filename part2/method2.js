@@ -1,14 +1,11 @@
-// Using Factory Function
-const createPerson = (name, age, occupation) => {
-    return {
-        name,
-        age,
-        occupation,
-        getDetails() {
-            return `${this.name}, aged ${this.age}, is a ${this.occupation}.`;
-        }
-    };
-}
+// Using Object Literal
+const person = {
+    name: 'Shravani Patil',
+    age: 20,
+    occupation: 'Web Developer',
+    getDetails() {
+        return `${this.name}, aged ${this.age}, is a ${this.occupation}.`;
+    }
+};
 
-let person3 = createPerson('Shravani Patil', 20, 'Web Developer');
-console.log(person3.getDetails());
+console.log(person.getDetails());
